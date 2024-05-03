@@ -1,78 +1,96 @@
-
-export const loadAllData = (myFiters)=>{
-   console.log("this is data",myFiters);
-   const { limit, ...restFilters } = myFiters;
-
-    return async (dispatch)=>{
-        try{
-
+export const loadAllData = (myFilters, limit) => {
+    return async (dispatch) => {
+        try {
+            // Dispatch action to indicate loading request
             dispatch({
-                type:'loadAllDataRequest'
-            })
-            const res = await fetch('https://api.weekday.technology/adhoc/getSampleJdJSON',{
-                method:"POST",
-                headers:{
-                    Accept:"application/json",
-                    "content-Type":"application/json"
+                type: 'loadAllDataRequest'
+            });
+
+            // Fetching data from given Api in assignment
+            const res = await fetch('https://api.weekday.technology/adhoc/getSampleJdJSON', {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "content-Type": "application/json"
                 },
-                Credential:'include',
-                body :JSON.stringify({
-                    limit,
+                Credential: 'include',
+                body: JSON.stringify({
+                    "limit": limit,
                     "offset": 0
                 })
             });
-            let data= await res.json();
+
+            // Parse response data
+            let data = await res.json();
             data = data.jdList;
-            if(myFiters.experience.length){
+
+            // Filter data based on provided filters
+            if (myFilters.experience) {
                 data = data.filter(item => {
-                    return (
-                      item.minExp === myFiters.experience 
-                    );
-                  });
+                    return item.minExp >= parseInt(myFilters.experience);
+                });
             }
-            if(myFiters.role){
+            // Filter by role
+            if (myFilters.role) {
                 data = data.filter(item => {
                     return (
-                      item.jobRole === myFiters.role 
+                        item.jobRole === myFilters.role
                     );
-                  });
+                });
             }
-            if(myFiters.location){
+            // Filter by location
+            if (myFilters.location) {
                 data = data.filter(item => {
                     return (
-                      item.location === myFiters.location 
+                        item.location === myFilters.location
                     );
-                  });
+                });
             }
-            if(myFiters.isRemote){
+            // Filter by company name
+            if (myFilters.companyName) {
                 data = data.filter(item => {
                     return (
-                      item.jobRole === myFiters.isRemote 
+                        item.companyName.toLowerCase().includes(myFilters.companyName.toLowerCase())
                     );
-                  });
+                });
             }
-            if(parseInt(myFiters.minBasePay)){
+            // Filter by remote/onsite
+            if (myFilters.isRemote) {
+                if (myFilters.isRemote === 'remote') {
+                    data = data.filter(item => {
+                        return item.location.toLowerCase() === 'remote';
+                    });
+                } else if (myFilters.isRemote === 'onsite') {
+                    data = data.filter(item => {
+                        return item.location.toLowerCase() !== 'remote';
+                    });
+                }
+            }
+            // Filter by minimum base pay
+            if (parseInt(myFilters.minBasePay)) {
                 data = data.filter(item => {
                     return (
-                      item.minJdSalary >= parseInt(myFiters.minBasePay)
+                        item.minJdSalary >= parseInt(myFilters.minBasePay)
                     );
-                  });
+                });
             }
 
-            if(res.status===200){
+            // Dispatching success action with filtered data if API request is successful
+            if (res.status === 200) {
                 dispatch({
-                    type:'success',
-                    payload:data
-                })
-            }else{
+                    type: 'success',
+                    payload: data
+                });
+            } else {
+                // Dispatching fail action if API request is unsuccessful
                 dispatch({
-                    type:'fail',
-                })
+                    type: 'fail',
+                });
             }
-        }catch(err){
+        } catch (err) {
             dispatch({
-                type:'fail',
-            })
+                type: 'fail',
+            });
         }
     }
 }

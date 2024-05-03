@@ -5,13 +5,21 @@
   }
   
   .select-control {
-    width: 200px; /* Adjust width as needed */
+    width: 180px;
+    margin-left: 20px;
+  }
+  .select-control1 {
+    width: 180px;
+    margin-left: 40px;
   }
   
   .text-field {
-    width: 300px; /* Adjust width as needed */
+    width: 210px; 
+    margin-left: 20px;
   }
-  
+  .text2{
+    width: 240px; 
+  }
   .button {
     align-self: flex-start;
     width: fit-content;

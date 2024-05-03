@@ -5,7 +5,7 @@ import './Filters.css';
 
 import { loadAllData } from '../actions/loadAllData';
 
-const Filters = ({limit}) => {
+const Filters = ({limit,setLimit}) => {
   const [role, setRole] = useState('');
   const [experience, setExperience] = useState('');
   const [isRemote, setIsRemote] = useState('');
@@ -15,6 +15,7 @@ const Filters = ({limit}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+        // we are dispatching action to load data when filters change
     const myFiters = {
       location,
       role,
@@ -24,25 +25,28 @@ const Filters = ({limit}) => {
       companyName,
       limit,
     };
-    dispatch(loadAllData(myFiters,limit)); 
-    // console.log(location)
-  }, [role,location, experience, isRemote, minBasePay, limit,companyName,dispatch]);
+    dispatch(loadAllData(myFiters, limit)); 
+  }, [role, location, experience, isRemote, minBasePay, limit, companyName, dispatch]);
 
  
 
   return (
     <div>
-      <Typography variant="h6">Filters</Typography>
+       
+     
+       
+     
       <FormControl variant="outlined" margin="normal">
-        <InputLabel id="experience-label">Experience</InputLabel>
-        <Select   className="select-control"
+        
+        <InputLabel  className="select-control1"  id="experience-label">Experience</InputLabel>
+        <Select   className="select-control1"
           labelId="experience-label"
           id="experience"
           value={experience}
           onChange={(e) => setExperience(e.target.value)}
           label="Experience"
         >
-          <MenuItem value="">Select</MenuItem>
+          <MenuItem  value="">Select</MenuItem>
           <MenuItem value="1">1</MenuItem>
           <MenuItem value="2">2</MenuItem>
           <MenuItem value="3">3</MenuItem>
@@ -54,7 +58,7 @@ const Filters = ({limit}) => {
       </FormControl>
 
       <FormControl variant="outlined" margin="normal">
-        <InputLabel id="location-label">Location</InputLabel>
+        <InputLabel className="select-control1" id="location-label">Location</InputLabel>
         <Select  className="select-control"
           labelId="location-label"
           id="location"
@@ -72,7 +76,7 @@ const Filters = ({limit}) => {
       {/* company name  */}
 
       <FormControl variant="outlined" margin="normal">
-        <InputLabel id="role-label">Roles</InputLabel>
+        <InputLabel className="select-control1" id="role-label">Roles</InputLabel>
         <Select  className="select-control"
           labelId="role-label"
           id="role"
@@ -90,7 +94,7 @@ const Filters = ({limit}) => {
       </FormControl>
 
       <FormControl variant="outlined" margin="normal">
-        <InputLabel id="remote-label">Remote/Onsite</InputLabel>
+        <InputLabel className="select-control1" id="remote-label">Remote/Onsite</InputLabel>
         <Select  className="select-control"
           labelId="remote-label"
           id="remote"
@@ -100,12 +104,12 @@ const Filters = ({limit}) => {
         >
           <MenuItem value="">Select</MenuItem>
           <MenuItem value='remote'>Remote</MenuItem>
-          <MenuItem value='on site'>On Site</MenuItem>
+          <MenuItem value='onsite'>On Site</MenuItem>
         </Select>
       </FormControl>
 
       <FormControl variant="outlined" margin="normal">
-        <InputLabel id="min-base-pay-label">Min Base Pay</InputLabel>
+        <InputLabel className="select-control1" id="min-base-pay-label">Min Base Pay</InputLabel>
         <Select  className="select-control"
           labelId="min-base-pay-label"
           id="min-base-pay"
@@ -131,6 +135,8 @@ const Filters = ({limit}) => {
       </FormControl>
 
       <TextField
+       style={{ marginLeft: '20px' }} 
+      className='text2'
         label="Search company by name"
         variant="outlined"
         margin="normal"
@@ -138,9 +144,7 @@ const Filters = ({limit}) => {
         onChange={(e) => setCompanyName(e.target.value)}
       />
 
-      {/* <Button variant="contained" color="primary" onClick={handleApplyFilters}>
-        Apply Filters
-      </Button> */}
+     
     </div>
   );
 };

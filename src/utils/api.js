@@ -1,10 +1,10 @@
 import axios from 'axios';
-
-// const API_BASE_URL = 'https://api.weekday.technology/adhoc';
-import { UseDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux'; 
 import { loadAllData } from '../actions/loadAllData';
+
+// Function to fetch jobs data with provided limit and offset
 export const fetchJobs = async (limit, offset) => {
-  const dispatch = UseDispatch();
+  const dispatch = useDispatch(); 
   const headers = {
     'Content-Type': 'application/json',
   };
@@ -12,7 +12,8 @@ export const fetchJobs = async (limit, offset) => {
   const requestBody = JSON.stringify({ limit, offset });
 
   try {
-   dispatch(loadAllData());
+    // Dispatch action to load all data
+    dispatch(loadAllData());
     return "data";
   } catch (error) {
     throw new Error('Failed to fetch jobs');

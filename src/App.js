@@ -21,6 +21,7 @@ function App() {
     "minBasePay":"",
     "companyName":"",
   };
+    // Fetch jobs data on component mount or when limit changes
   useEffect(() => {
 
     dispatch(loadAllData(myFiters,limit));
@@ -28,21 +29,22 @@ function App() {
 
   const staticData = {
     name: "Hi working",
-    // Add other static data properties as needed
   };
   return (
    
     
      <div >
-       <Filters limit={limit} />
+<Filters limit={limit} setLimit={setLimit} />
        {loading===false && 
        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
           {jobsData.map((job, index) => (
-            <JobCard key={index} job={job} staticData={staticData} />
+            <JobCard key={index} job={job} companyName={job.companyName} logoUrl={job.logoUrl} staticData={staticData} />
           ))}
        </div>
        }
-       <button onClick={()=>setLimit(limit+10)}>Load More</button>
+       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px',marginBottom : '100px' }}>
+        <button onClick={() => setLimit(limit + 10)}>Load More</button>
+      </div>
      
    </div>
   );

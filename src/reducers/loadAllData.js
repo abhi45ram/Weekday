@@ -1,5 +1,5 @@
 export const initialProductDetails = {};
-
+// Reducer function for loading all data
 const loadAllData = (state = initialProductDetails,action)=>{
     if(action.type === 'loadAllDataRequest'){
         return{
